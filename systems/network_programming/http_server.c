@@ -72,6 +72,9 @@ int main(void) {
                   strlen(response_buffer)) < 0) {
             perror("write failed");
         }
-        close(client_file_discriptor);
+        if (close(client_file_discriptor) < 0) {
+            perror("Failed to close the socket");
+            return EXIT_FAILURE;
+        }
     }
 }
