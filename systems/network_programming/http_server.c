@@ -1,6 +1,7 @@
 #include <netinet/in.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,7 +10,7 @@
 
 int main(void) {
     const size_t BUFFER_SIZE = 1024;
-    const size_t PORT = 8080;
+    const uint16_t PORT = 8080;
     int socket_file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_file_descriptor < 0) {
         perror("Error creating socket");
