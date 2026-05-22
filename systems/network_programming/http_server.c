@@ -21,7 +21,7 @@ int main(void) {
     server_addr.sin_port = htons(PORT);
     server_addr.sin_addr.s_addr = INADDR_ANY;
     if (bind(socket_file_descriptor, (struct sockaddr *)&server_addr,
-             sizeof(struct sockaddr_in)) < 0) {
+             sizeof(server_addr)) < 0) {
         perror("bind failed");
         return EXIT_FAILURE;
     }
