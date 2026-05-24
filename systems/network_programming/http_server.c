@@ -11,6 +11,16 @@
 int main(void) {
     const size_t BUFFER_SIZE = 1024;
     const uint16_t PORT = 8080;
+    struct http_request {
+        char *method;
+        char *path;
+        char *version;
+        struct header {
+            char *key;
+            char *value;
+        } headers[20];
+        int header_count;
+    };
     int socket_file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_file_descriptor < 0) {
         perror("Error creating socket");
@@ -54,6 +64,23 @@ int main(void) {
         if (read(client_file_discriptor, request_buffer, BUFFER_SIZE) < 0) {
             perror("read failed");
         }
+        struct http_request http_request_parsed = {0};
+        http_request_parsed.method = strtok(request_buffer, " ");
+        printf("%s\n", http_request_parsed.method);
+        http_request_parsed.path = strtok(NULL, " ");
+        printf("%s\n", http_request_parsed.path);
+        http_request_parsed.version = strtok(NULL, "\r\n");
+        printf("%s\n", http_request_parsed.version);
+        char *line;
+        size_t counter = 0;
+        while ((line = strtok(NULL, "\r\n")) != NULL) {
+            char *separator = strstr(line, ": ");
+            *separator = '\0';
+            http_request_parsed.headers[counter].key = line;
+            http_request_parsed.headers[counter].value = separator + 2;
+            counter++;
+        }
+        http_request_parsed.header_count = counter - 1;
         snprintf(response_buffer, BUFFER_SIZE,
                  "HTTP/1.1 200 OK\r\n"
                  "Content-Type: text/html\r\n"
