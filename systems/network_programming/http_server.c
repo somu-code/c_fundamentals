@@ -66,11 +66,8 @@ int main(void) {
         }
         struct http_request http_request_parsed = {0};
         http_request_parsed.method = strtok(request_buffer, " ");
-        printf("%s\n", http_request_parsed.method);
         http_request_parsed.path = strtok(NULL, " ");
-        printf("%s\n", http_request_parsed.path);
         http_request_parsed.version = strtok(NULL, "\r\n");
-        printf("%s\n", http_request_parsed.version);
         char *line;
         size_t counter = 0;
         while ((line = strtok(NULL, "\r\n")) != NULL) {
@@ -81,23 +78,25 @@ int main(void) {
             counter++;
         }
         http_request_parsed.header_count = counter - 1;
-        snprintf(response_buffer, BUFFER_SIZE,
-                 "HTTP/1.1 200 OK\r\n"
-                 "Content-Type: text/html\r\n"
-                 "Content-Length: 1024\r\n"
-                 "\r\n"
-                 "<!DOCTYPE html>"
-                 "<html>"
-                 "<head>"
-                 "<title>Example page</title>"
-                 "</head>"
-                 "<body>"
-                 "<h1>Hello, world!</h1>"
-                 "</body>"
-                 "</html>\n");
-        if (write(client_file_discriptor, response_buffer,
-                  strlen(response_buffer)) < 0) {
-            perror("write failed");
+        if (strncmp(http_request_parsed.method, "GET", 3) == 0) {
+            snprintf(response_buffer, BUFFER_SIZE,
+                     "HTTP/1.1 200 OK\r\n"
+                     "Content-Type: text/html\r\n"
+                     "Content-Length: 1024\r\n"
+                     "\r\n"
+                     "<!DOCTYPE html>"
+                     "<html>"
+                     "<head>"
+                     "<title>Example page</title>"
+                     "</head>"
+                     "<body>"
+                     "<h1>Hello, world!</h1>"
+                     "</body>"
+                     "</html>\n");
+            if (write(client_file_discriptor, response_buffer,
+                      strlen(response_buffer)) < 0) {
+                perror("write failed");
+            }
         }
         if (close(client_file_discriptor) < 0) {
             perror("Failed to close the socket");
