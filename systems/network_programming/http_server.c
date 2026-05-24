@@ -78,7 +78,8 @@ int main(void) {
             counter++;
         }
         http_request_parsed.header_count = counter - 1;
-        if (strncmp(http_request_parsed.method, "GET", 3) == 0) {
+        if ((strncmp(http_request_parsed.method, "GET", 3) == 0) &&
+            (strncmp(http_request_parsed.path, "/", 1) == 0)) {
             snprintf(response_buffer, BUFFER_SIZE,
                      "HTTP/1.1 200 OK\r\n"
                      "Content-Type: text/html\r\n"
@@ -93,6 +94,26 @@ int main(void) {
                      "<h1>Hello, world!</h1>"
                      "</body>"
                      "</html>\n");
+            if (write(client_file_discriptor, response_buffer,
+                      strlen(response_buffer)) < 0) {
+                perror("write failed");
+            }
+        } else if ((strncmp(http_request_parsed.path, "/", 1) == 0) &&
+                   (strncmp(http_request_parsed.method, "GET", 3) != 0)) {
+            snprintf(response_buffer, BUFFER_SIZE,
+                     "HTTP/1.1 405 Method Not Allowed\r\n"
+                     "Content-Length: 0\r\n"
+                     "Allow: GET\r\n"
+                     "\r\n");
+            if (write(client_file_discriptor, response_buffer,
+                      strlen(response_buffer)) < 0) {
+                perror("write failed");
+            }
+        } else {
+            snprintf(response_buffer, BUFFER_SIZE,
+                     "HTTP/1.1 404 Not Found\r\n"
+                     "Content-Type: text/html; charset=UTF-8\r\n"
+                     "\r\n");
             if (write(client_file_discriptor, response_buffer,
                       strlen(response_buffer)) < 0) {
                 perror("write failed");
