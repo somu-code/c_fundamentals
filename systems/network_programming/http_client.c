@@ -11,10 +11,12 @@
 int main(void) {
     const uint16_t PORT = 8080;
     const char *http_request =
-        "GET / HTTP/1.1\r\n"
+        "GET /index.html HTTP/1.1\r\n"
         "HOST: 127.0.0.1:8080\r\n"
         "User-Agent: my_custom_client\r\n"
-        "Accept: */*\r\n";
+        "Accept: */*\r\n"
+        "\r\n";
+    size_t BUFFER_SIZE = 1024;
     int socket_file_discriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_file_discriptor < 0) {
         perror("Error creating socket");
@@ -33,6 +35,9 @@ int main(void) {
         perror("Failed to write");
         return EXIT_FAILURE;
     }
+    char *http_response = malloc(BUFFER_SIZE);
+    read(socket_file_discriptor, http_response, BUFFER_SIZE);
+    printf("%s", http_response);
     if (close(socket_file_discriptor) < 0) {
         perror("Failed to close the socket");
         return EXIT_FAILURE;
