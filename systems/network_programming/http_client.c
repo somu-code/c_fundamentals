@@ -11,8 +11,8 @@
 int main(void) {
     const uint16_t PORT = 8080;
     const char *http_request =
-        "GET /index.html HTTP/1.1\r\n"
-        "HOST: 127.0.0.1:8080\r\n"
+        "GET / HTTP/1.1\r\n"
+        "HOST: localhost\r\n"
         "User-Agent: my_custom_client\r\n"
         "Accept: */*\r\n"
         "\r\n";
