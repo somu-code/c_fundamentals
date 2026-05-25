@@ -9,6 +9,10 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+int init_logger(FILE *log_file_pointer, char *path_to_log_file);
+void log_message_write(FILE *target_log_file_pointer, char *level,
+                       char *message);
+
 int main(void) {
     struct logger {
         FILE *access_log;
