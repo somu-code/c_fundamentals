@@ -1,3 +1,6 @@
+logs/
+
 a.out
-client
-server
+*.h.gch
+*.swp
+*.swo

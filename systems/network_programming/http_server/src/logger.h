@@ -6,11 +6,11 @@
 struct logger_type {
     FILE *access_log;
     FILE *error_log;
-    char *access_log_path;
-    char *error_log_path;
+    const char *access_log_path;
+    const char *error_log_path;
 };
 
-int init_logger(FILE *log_file, char *log_file_path);
+FILE *init_logger(const char *log_file_path);
 void log_message();
 
 #endif
