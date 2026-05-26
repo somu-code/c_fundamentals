@@ -1,40 +1,21 @@
 #include <errno.h>
 #include <netinet/in.h>
 #include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
-int init_logger(FILE *log_file_pointer, char *path_to_log_file);
-void log_message_write(FILE *target_log_file_pointer, char *level,
-                       char *message);
+#include "http_server.h"
+
+// [timestamp] [Module and severity] [process and thread id] [client address]
+// [message]
 
 int main(void) {
-    struct logger {
-        FILE *access_log;
-        FILE *error_log;
-        char *access_log_path;
-        char *error_log_path;
-    };
-    const size_t BUFFER_SIZE = 1024;
-    const uint16_t PORT = 8080;
-    struct http_request {
-        char *method;
-        char *path;
-        char *version;
-        struct header {
-            char *key;
-            char *value;
-        } headers[20];
-        int header_count;
-    };
     int server_socket_file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket_file_descriptor < 0) {
-        perror("Error creating socket");
+        fprintf(stdout, "hello there");
         return EXIT_FAILURE;
     }
     printf("%d socket created\n", server_socket_file_descriptor);
