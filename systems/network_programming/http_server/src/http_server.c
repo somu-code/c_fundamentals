@@ -10,18 +10,11 @@
 #include "http_server.h"
 #include "logger.h"
 
-// [timestamp] [Module and severity] [process and thread id] [client address]
-// [message]
-
 int main(void) {
     setup_logger();
-    log_message(logger.error_log, "this is an error");
-    fclose(logger.access_log);
-    fclose(logger.error_log);
-    return EXIT_FAILURE;
     int server_socket_file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket_file_descriptor < 0) {
-        fprintf(stdout, "hello there");
+        log_message(logger.error_log, strerror(errno));
         return EXIT_FAILURE;
     }
     printf("%d socket created\n", server_socket_file_descriptor);
