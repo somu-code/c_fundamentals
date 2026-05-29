@@ -32,14 +32,21 @@ void get_timestamp(char timestamp[TIMESTAMP_BUFFER_SIZE], size_t buffer_size) {
 FILE *init_logger(const char *log_file_path) {
     FILE *log_file_pointer = fopen(log_file_path, "a");
     if (log_file_pointer == NULL) {
-        log_message(stdout, strerror(errno));
+        stdout_log_message(strerror(errno));
         exit(EXIT_FAILURE);
     }
     return log_file_pointer;
 }
 
-void log_message(FILE *log_file, const char *message) {
+void stdout_log_message(const char *message) {
     char timestamp[TIMESTAMP_BUFFER_SIZE];
     get_timestamp(timestamp, sizeof(timestamp));
-    fprintf(log_file, "[%s] [pid %d] %s\n", timestamp, getpid(), message);
+    printf("[%s] [pid %d] %s\n", timestamp, getpid(), message);
+}
+
+void error_log_message(const char *message) {
+    char timestamp[TIMESTAMP_BUFFER_SIZE];
+    get_timestamp(timestamp, sizeof(timestamp));
+    fprintf(logger.error_log, "[%s] [pid %d] %s\n", timestamp, getpid(),
+            message);
 }

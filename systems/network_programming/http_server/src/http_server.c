@@ -14,7 +14,7 @@ int main(void) {
     setup_logger();
     int server_socket_file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket_file_descriptor < 0) {
-        log_message(logger.error_log, strerror(errno));
+        error_log_message(strerror(errno));
         return EXIT_FAILURE;
     }
     printf("%d socket created\n", server_socket_file_descriptor);

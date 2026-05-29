@@ -12,11 +12,10 @@ struct logger_type {
     const char *error_log_path;
 };
 
-extern struct logger_type logger;
-
 void setup_logger(void);
 void get_timestamp(char timestamp[TIMESTAMP_BUFFER_SIZE], size_t buffer_size);
 FILE *init_logger(const char *log_file_path);
-void log_message(FILE *log_file, const char *message);
+void stdout_log_message(const char *message);
+void error_log_message(const char *message);
 
 #endif
