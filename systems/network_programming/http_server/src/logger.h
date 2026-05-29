@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define TIMESTAMP_BUFFER_SIZE 20
+#define TIMESTAMP_BUFFER_SIZE 26
 
 struct logger_type {
     FILE *access_log;
@@ -12,10 +12,9 @@ struct logger_type {
     const char *error_log_path;
 };
 
-void setup_logger(void);
-void get_timestamp(char timestamp[TIMESTAMP_BUFFER_SIZE], size_t buffer_size);
-FILE *init_logger(const char *log_file_path);
-void stdout_log_message(const char *message);
+int setup_logger();
 void error_log_message(const char *message);
+void access_log_message(const char *message);
+void close_logger(void);
 
 #endif

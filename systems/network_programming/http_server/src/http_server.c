@@ -17,45 +17,45 @@ int main(void) {
         error_log_message(strerror(errno));
         return EXIT_FAILURE;
     }
-    printf("%d socket created\n", server_socket_file_descriptor);
+    access_log_message("server socket created");
     struct sockaddr_in server_addr = {0};
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(PORT);
     server_addr.sin_addr.s_addr = INADDR_ANY;
     if (bind(server_socket_file_descriptor, (struct sockaddr *)&server_addr,
              sizeof(server_addr)) < 0) {
-        perror("bind failed");
+        error_log_message(strerror(errno));
         return EXIT_FAILURE;
     }
-    printf("bind successful\n");
+    access_log_message("bind successful");
     if (listen(server_socket_file_descriptor, SOMAXCONN) < 0) {
-        perror("listen failed");
+        error_log_message(strerror(errno));
         return EXIT_FAILURE;
     }
-    printf("socket is at listening state\n");
+    access_log_message("socket is at listening state");
     char *request_buffer = malloc(BUFFER_SIZE);
     if (request_buffer == NULL) {
-        perror("Failed to allocate buffer");
+        error_log_message(strerror(errno));
         return EXIT_FAILURE;
     }
     char *response_buffer = malloc(BUFFER_SIZE);
     if (response_buffer == NULL) {
-        perror("Failed to allocate buffer");
+        error_log_message(strerror(errno));
         return EXIT_FAILURE;
     }
     while (true) {
         memset(request_buffer, 0, BUFFER_SIZE);
         memset(response_buffer, 0, BUFFER_SIZE);
-        printf("waiting for client to connect\n");
+        access_log_message("waiting for client to connect");
         int client_file_discriptor =
             accept(server_socket_file_descriptor, NULL, NULL);
         if (client_file_discriptor < 0) {
-            perror("accept failed");
+            error_log_message(strerror(errno));
             continue;
         }
-        printf("client connected\n");
+        access_log_message("client connected");
         if (read(client_file_discriptor, request_buffer, BUFFER_SIZE) < 0) {
-            perror("read failed");
+            error_log_message(strerror(errno));
             continue;
         }
         struct http_request http_request_parsed = {0};
@@ -90,7 +90,7 @@ int main(void) {
                      "</html>\n");
             if (write(client_file_discriptor, response_buffer,
                       strlen(response_buffer)) < 0) {
-                perror("write failed");
+                error_log_message(strerror(errno));
                 continue;
             }
         } else if ((strncmp(http_request_parsed.path, "/", 1) == 0) &&
@@ -102,7 +102,7 @@ int main(void) {
                      "\r\n");
             if (write(client_file_discriptor, response_buffer,
                       strlen(response_buffer)) < 0) {
-                perror("write failed");
+                error_log_message(strerror(errno));
                 continue;
             }
         } else {
@@ -112,12 +112,13 @@ int main(void) {
                      "\r\n");
             if (write(client_file_discriptor, response_buffer,
                       strlen(response_buffer)) < 0) {
-                perror("write failed");
+                error_log_message(strerror(errno));
                 continue;
             }
         }
         if (close(client_file_discriptor) < 0) {
-            perror("Failed to close the socket");
+            error_log_message(strerror(errno));
         }
     }
+    close_logger();
 }
