@@ -34,13 +34,12 @@ c-fundamentals/
 │   ├── binary_search.c                   ← todo
 │   ├── merge_sort.c                      ← todo
 │   ├── quick_sort.c                      ← todo
-│   └── generic_sort.c
+│   └── generic_sort.c                    ← todo
 │
 ├── systems/
 │   ├── file_programming/
 │   ├── network_programming/
-│   │   ├── http_server.c                 ← todo
-│   │   └── multithreaded_http_server.c   ← todo
+│   │   └── http_server/                 ← currently working on it
 │   └── commandline_tools/
 │
 ├── memory_and_pointers/
@@ -50,9 +49,8 @@ c-fundamentals/
 │   └── function_pointers.c               ← todo
 │
 └── projects/
-    └── markdown_parser/
-        └── markdown_parser.c
-        
+    ├── markdown_parser/
+    └── brain_fuc*_interpreter/
 ```
 
 ---
