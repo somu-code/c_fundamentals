@@ -18,9 +18,11 @@ int main(int argc, char **argv) {
             switch (instruction_pointer) {
                 case '>':
                     data_pointer++;
+                    counter = 0;
                     break;
                 case '<':
                     data_pointer--;
+                    counter = 0;
                     break;
                 case '+':
                     counter++;
