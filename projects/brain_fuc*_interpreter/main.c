@@ -45,8 +45,24 @@ int main(int argc, char **argv) {
                     tape[data_pointer] = getchar();
                     break;
                 case '[':
+                    if (tape[data_pointer] == 0) {
+                        // jump to the matching ]
+                        int matching_index = 1;
+                        while (input_array[index + matching_index] != ']') {
+                            matching_index++;
+                        }
+                        index = index + matching_index;
+                    }
                     break;
                 case ']':
+                    if (tape[data_pointer] != 0) {
+                        // jump back to the matching [
+                        int matching_index = -1;
+                        while (input_array[index + matching_index] != '[') {
+                            matching_index--;
+                        }
+                        index = index + matching_index;
+                    }
                     break;
                 default:
                     printf("Something going wrong ther\n");
