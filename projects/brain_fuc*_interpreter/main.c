@@ -46,22 +46,34 @@ int main(int argc, char **argv) {
                     break;
                 case '[':
                     if (tape[data_pointer] == 0) {
-                        // jump to the matching ]
+                        int depth = 1;
                         int matching_index = 1;
-                        while (input_array[index + matching_index] != ']') {
+                        while (depth != 0) {
+                            if (input_array[index + matching_index] == '[') {
+                                depth++;
+                            } else if (input_array[index + matching_index] ==
+                                       ']') {
+                                depth--;
+                            }
                             matching_index++;
                         }
-                        index = index + matching_index;
+                        index = index + matching_index - 1;
                     }
                     break;
                 case ']':
                     if (tape[data_pointer] != 0) {
-                        // jump back to the matching [
+                        int depth = 1;
                         int matching_index = -1;
-                        while (input_array[index + matching_index] != '[') {
+                        while (depth != 0) {
+                            if (input_array[index + matching_index] == ']') {
+                                depth++;
+                            } else if (input_array[index + matching_index] ==
+                                       '[') {
+                                depth--;
+                            }
                             matching_index--;
                         }
-                        index = index + matching_index;
+                        index = index + matching_index + 1;
                     }
                     break;
                 default:
