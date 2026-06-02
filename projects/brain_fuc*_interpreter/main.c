@@ -13,7 +13,6 @@ int main(int argc, char **argv) {
         fseek(input_file, 0, SEEK_END);
         long input_file_size = ftell(input_file);
         fseek(input_file, 0, SEEK_SET);
-        input_file_size++;
         char input_array[input_file_size];
         int input_array_index = 0;
         int c;
@@ -21,29 +20,23 @@ int main(int argc, char **argv) {
             input_array[input_array_index] = c;
             input_array_index++;
         }
-        input_array[input_file_size] = '\0';
+        input_array[input_array_index - 1] = '\0';
         unsigned char tape[30000] = {0};
         int data_pointer = 0;
-        int instruction_pointer;
-        int counter = 0;
         int index = 0;
-        while ((instruction_pointer = input_array[index]) != '\0') {
-            switch (instruction_pointer) {
+        while (input_array[index] != '\0') {
+            switch (input_array[index]) {
                 case '>':
                     data_pointer++;
-                    counter = 0;
                     break;
                 case '<':
                     data_pointer--;
-                    counter = 0;
                     break;
                 case '+':
-                    counter++;
-                    tape[data_pointer] = counter;
+                    tape[data_pointer]++;
                     break;
                 case '-':
-                    counter--;
-                    tape[data_pointer] = counter;
+                    tape[data_pointer]--;
                     break;
                 case '.':
                     putchar(tape[data_pointer]);
@@ -54,6 +47,9 @@ int main(int argc, char **argv) {
                 case '[':
                     break;
                 case ']':
+                    break;
+                default:
+                    printf("Something going wrong ther\n");
                     break;
             }
             index++;
