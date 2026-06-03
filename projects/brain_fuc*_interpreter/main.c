@@ -6,10 +6,15 @@ The three things in interpreter
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char **argv) {
     if (argc == 2) {
         FILE *input_file = fopen(argv[1], "r");
+        if (input_file == NULL) {
+            perror("Failed to open file");
+            return EXIT_FAILURE;
+        }
         fseek(input_file, 0, SEEK_END);
         long input_file_size = ftell(input_file);
         fseek(input_file, 0, SEEK_SET);
@@ -20,6 +25,7 @@ int main(int argc, char **argv) {
             input_array[input_array_index] = c;
             input_array_index++;
         }
+        fclose(input_file);
         input_array[input_array_index - 1] = '\0';
         unsigned char tape[30000] = {0};
         int data_pointer = 0;
