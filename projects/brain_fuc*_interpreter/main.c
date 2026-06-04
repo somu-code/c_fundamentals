@@ -22,7 +22,11 @@ int main(int argc, char **argv)
 	fseek(input_file, 0, SEEK_END);
 	long input_file_size = ftell(input_file);
 	fseek(input_file, 0, SEEK_SET);
-	char input_array[input_file_size];
+	char *input_array = malloc(input_file_size);
+	if (input_array == NULL) {
+		perror("Failed to allocate memory");
+		return EXIT_FAILURE;
+	}
 	int input_array_index = 0;
 	int c;
 	while ((c = fgetc(input_file)) != EOF) {
@@ -96,4 +100,5 @@ int main(int argc, char **argv)
 		}
 		index++;
 	}
+	free(input_array);
 }
