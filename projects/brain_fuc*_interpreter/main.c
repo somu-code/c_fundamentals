@@ -21,6 +21,10 @@ int main(int argc, char **argv)
 	}
 	fseek(input_file, 0, SEEK_END);
 	long input_file_size = ftell(input_file);
+	if (input_file_size == 0) {
+		printf("Given file is empty\n");
+		return EXIT_FAILURE;
+	}
 	fseek(input_file, 0, SEEK_SET);
 	char *input_array = malloc(input_file_size);
 	if (input_array == NULL) {
