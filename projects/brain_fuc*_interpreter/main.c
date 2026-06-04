@@ -25,6 +25,8 @@ int main(int argc, char **argv)
 	char *input_array = malloc(input_file_size);
 	if (input_array == NULL) {
 		perror("Failed to allocate memory");
+		fclose(input_file);
+		free(input_array);
 		return EXIT_FAILURE;
 	}
 	int input_array_index = 0;
