@@ -22,18 +22,18 @@ int main(int argc, char **argv)
 	fseek(input_file, 0, SEEK_END);
 	long input_file_size = ftell(input_file);
 	if (input_file_size == 0) {
-		printf("Given file is empty\n");
+		printf("Nothing to interpret\n");
 		return EXIT_FAILURE;
 	}
 	fseek(input_file, 0, SEEK_SET);
 	char *input_array = malloc(input_file_size);
 	if (input_array == NULL) {
-		perror("Failed to allocate memory");
+		perror("Failed to allocate memory\n");
 		fclose(input_file);
 		free(input_array);
 		return EXIT_FAILURE;
 	}
-	int input_array_index = 0;
+	long input_array_index = 0;
 	int c;
 	while ((c = fgetc(input_file)) != EOF) {
 		input_array[input_array_index] = c;
