@@ -40,11 +40,10 @@ int main(int argc, char **argv)
 		input_array_index++;
 	}
 	fclose(input_file);
-	input_array[input_array_index - 1] = '\0';
 	unsigned char tape[30000] = { 0 };
 	int data_pointer = 0;
 	int index = 0;
-	while (input_array[index] != '\0') {
+	while (index < input_file_size) {
 		switch (input_array[index]) {
 		case '>':
 			data_pointer++;
@@ -104,4 +103,5 @@ int main(int argc, char **argv)
 		index++;
 	}
 	free(input_array);
+	return EXIT_SUCCESS;
 }
