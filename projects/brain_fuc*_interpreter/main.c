@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 			}
 			break;
 		default:
-			printf("Something going wrong ther\n");
+			printf("Charater is not a command\n");
 			break;
 		}
 		index++;
