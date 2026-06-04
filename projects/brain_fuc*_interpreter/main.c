@@ -96,9 +96,6 @@ int main(int argc, char **argv)
 				index = index + matching_index + 1;
 			}
 			break;
-		default:
-			printf("Charater is not a command\n");
-			break;
 		}
 		index++;
 	}
