@@ -47,9 +47,17 @@ int main(int argc, char **argv)
 		switch (input_array[index]) {
 		case '>':
 			data_pointer++;
+			if (data_pointer > 29999) {
+				fprintf(stderr, "Tape out of bound\n");
+				return EXIT_FAILURE;
+			}
 			break;
 		case '<':
 			data_pointer--;
+			if (data_pointer < 0) {
+				fprintf(stderr, "Tape out of bound\n");
+				return EXIT_FAILURE;
+			}
 			break;
 		case '+':
 			tape[data_pointer]++;
