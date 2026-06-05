@@ -76,8 +76,13 @@ int main(int argc, char **argv)
 				int depth = 1;
 				int matching_index = 1;
 				while (depth != 0) {
-					if (input_array[index + matching_index] ==
-					    '[') {
+					if (index + matching_index >
+					    input_file_size - 1) {
+						printf("Input file has one or more unmatched [\n");
+						return EXIT_FAILURE;
+					} else if (input_array[index +
+							       matching_index] ==
+						   '[') {
 						depth++;
 					} else if (input_array[index +
 							       matching_index] ==
@@ -94,8 +99,12 @@ int main(int argc, char **argv)
 				int depth = 1;
 				int matching_index = -1;
 				while (depth != 0) {
-					if (input_array[index + matching_index] ==
-					    ']') {
+					if (0 < index + matching_index) {
+						printf("Input file has one or more unmatched ]\n");
+						return EXIT_FAILURE;
+					} else if (input_array[index +
+							       matching_index] ==
+						   ']') {
 						depth++;
 					} else if (input_array[index +
 							       matching_index] ==
