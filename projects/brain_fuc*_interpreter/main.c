@@ -11,10 +11,11 @@ The three things in interpreter
 int main(int argc, char **argv)
 {
 	if (argc < 2) {
-		printf("Provide a valid brain fuc* source file as a argument\n");
+		fprintf(stderr,
+			"Provide a valid brain fuc* source file as a argument\n");
 		return EXIT_FAILURE;
 	} else if (argc > 2) {
-		printf("Too many files to handle\n");
+		fprintf(stderr, "Too many files to handle\n");
 		return EXIT_FAILURE;
 	}
 	FILE *input_file = fopen(argv[1], "r");
@@ -41,7 +42,7 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 	long input_array_index = 0;
-	long c;
+	int c;
 	while ((c = fgetc(input_file)) != EOF) {
 		input_array[input_array_index] = c;
 		input_array_index++;
@@ -56,7 +57,7 @@ int main(int argc, char **argv)
 			data_pointer++;
 			if (data_pointer > 29999) {
 				free(input_array);
-				printf("Tape out of bound\n");
+				fprintf(stderr, "Tape out of bound\n");
 				return EXIT_FAILURE;
 			}
 			break;
@@ -88,7 +89,8 @@ int main(int argc, char **argv)
 					if (index + matching_index >
 					    input_file_size - 1) {
 						free(input_array);
-						printf("Input file has one or more unmatched [\n");
+						fprintf(stderr,
+							"Input file has one or more unmatched [\n");
 						return EXIT_FAILURE;
 					} else if (input_array[index +
 							       matching_index] ==
@@ -111,7 +113,8 @@ int main(int argc, char **argv)
 				while (depth != 0) {
 					if (index + matching_index < 0) {
 						free(input_array);
-						printf("Input file has one or more unmatched ]\n");
+						fprintf(stderr,
+							"Input file has one or more unmatched ]\n");
 						return EXIT_FAILURE;
 					} else if (input_array[index +
 							       matching_index] ==
@@ -130,7 +133,9 @@ int main(int argc, char **argv)
 		}
 		index++;
 	}
-	printf("\n");
+	if (tape[data_pointer] != 10) {
+		printf("\n");
+	}
 	free(input_array);
 	return EXIT_SUCCESS;
 }
