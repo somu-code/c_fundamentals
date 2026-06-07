@@ -13,6 +13,9 @@ int main(int argc, char **argv)
 	if (argc < 2) {
 		printf("Provide a valid brain fuc* source file as a argument\n");
 		return EXIT_FAILURE;
+	} else if (argc > 2) {
+		printf("Too many files to handle\n");
+		return EXIT_FAILURE;
 	}
 	FILE *input_file = fopen(argv[1], "r");
 	if (input_file == NULL) {
@@ -22,19 +25,23 @@ int main(int argc, char **argv)
 	fseek(input_file, 0, SEEK_END);
 	long input_file_size = ftell(input_file);
 	if (input_file_size == 0) {
+		fclose(input_file);
 		printf("Nothing to interpret\n");
+		return EXIT_FAILURE;
+	} else if (input_file_size > 30000) {
+		fclose(input_file);
+		printf("File is too large to handle\n");
 		return EXIT_FAILURE;
 	}
 	fseek(input_file, 0, SEEK_SET);
 	char *input_array = malloc(input_file_size);
 	if (input_array == NULL) {
-		perror("Failed to allocate memory\n");
 		fclose(input_file);
-		free(input_array);
+		perror("Failed to allocate memory");
 		return EXIT_FAILURE;
 	}
 	long input_array_index = 0;
-	int c;
+	long c;
 	while ((c = fgetc(input_file)) != EOF) {
 		input_array[input_array_index] = c;
 		input_array_index++;
@@ -42,19 +49,21 @@ int main(int argc, char **argv)
 	fclose(input_file);
 	unsigned char tape[30000] = { 0 };
 	int data_pointer = 0;
-	int index = 0;
+	long index = 0;
 	while (index < input_file_size) {
 		switch (input_array[index]) {
 		case '>':
 			data_pointer++;
 			if (data_pointer > 29999) {
-				fprintf(stderr, "Tape out of bound\n");
+				free(input_array);
+				printf("Tape out of bound\n");
 				return EXIT_FAILURE;
 			}
 			break;
 		case '<':
 			data_pointer--;
 			if (data_pointer < 0) {
+				free(input_array);
 				fprintf(stderr, "Tape out of bound\n");
 				return EXIT_FAILURE;
 			}
@@ -74,10 +83,11 @@ int main(int argc, char **argv)
 		case '[':
 			if (tape[data_pointer] == 0) {
 				int depth = 1;
-				int matching_index = 1;
+				long matching_index = 1;
 				while (depth != 0) {
 					if (index + matching_index >
 					    input_file_size - 1) {
+						free(input_array);
 						printf("Input file has one or more unmatched [\n");
 						return EXIT_FAILURE;
 					} else if (input_array[index +
@@ -97,9 +107,10 @@ int main(int argc, char **argv)
 		case ']':
 			if (tape[data_pointer] != 0) {
 				int depth = 1;
-				int matching_index = -1;
+				long matching_index = -1;
 				while (depth != 0) {
-					if (0 < index + matching_index) {
+					if (index + matching_index < 0) {
+						free(input_array);
 						printf("Input file has one or more unmatched ]\n");
 						return EXIT_FAILURE;
 					} else if (input_array[index +
@@ -119,6 +130,7 @@ int main(int argc, char **argv)
 		}
 		index++;
 	}
+	printf("\n");
 	free(input_array);
 	return EXIT_SUCCESS;
 }
