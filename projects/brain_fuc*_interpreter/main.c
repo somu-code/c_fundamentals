@@ -27,11 +27,11 @@ int main(int argc, char **argv)
 	long input_file_size = ftell(input_file);
 	if (input_file_size == 0) {
 		fclose(input_file);
-		printf("Nothing to interpret\n");
+		fprintf(stderr, "Nothing to interpret\n");
 		return EXIT_FAILURE;
 	} else if (input_file_size > 30000) {
 		fclose(input_file);
-		printf("File is too large to handle\n");
+		fprintf(stderr, "File is too large to handle\n");
 		return EXIT_FAILURE;
 	}
 	fseek(input_file, 0, SEEK_SET);
