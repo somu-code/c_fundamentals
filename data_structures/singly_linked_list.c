@@ -26,6 +26,12 @@ void print_list(struct Node *head)
 	}
 }
 
+void insert_at_beginning(struct Node **head, struct Node *new_node)
+{
+	new_node->next = *head;
+	*head = new_node;
+}
+
 int main(void)
 {
 	struct Node *head = NULL;
@@ -33,12 +39,23 @@ int main(void)
 	if (head == NULL) {
 		return EXIT_FAILURE;
 	}
-	struct Node *second_node = create_node(1);
+	struct Node *second_node = create_node(2);
 	if (second_node == NULL) {
 		return EXIT_FAILURE;
 	}
 	head->next = second_node;
+	struct Node *third_node = create_node(3);
+	if (third_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_beginning(&head, third_node);
+	struct Node *forth_node = create_node(4);
+	if (forth_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_beginning(&head, forth_node);
 	print_list(head);
 	free(head);
 	free(second_node);
+	free(third_node);
 }
