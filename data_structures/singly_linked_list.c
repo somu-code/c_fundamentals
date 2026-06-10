@@ -18,6 +18,14 @@ struct Node *create_node(int n)
 	return temp;
 }
 
+void print_list(struct Node *head)
+{
+	while (head != NULL) {
+		printf("Data: %d, Next: %p\n", head->data, (void *)head->next);
+		head = head->next;
+	}
+}
+
 int main(void)
 {
 	struct Node *head = NULL;
@@ -30,6 +38,7 @@ int main(void)
 		return EXIT_FAILURE;
 	}
 	head->next = second_node;
+	print_list(head);
 	free(head);
 	free(second_node);
 }
