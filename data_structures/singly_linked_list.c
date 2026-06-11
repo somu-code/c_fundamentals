@@ -34,6 +34,11 @@ void insert_at_beginning(struct Node **head, struct Node *new_node)
 
 void free_list(struct Node *head)
 {
+	while (head != NULL) {
+		struct Node *temp = head->next;
+		free(head);
+		head = temp;
+	}
 }
 
 int main(void)
@@ -59,4 +64,5 @@ int main(void)
 	}
 	insert_at_beginning(&head, forth_node);
 	print_list(head);
+	free_list(head);
 }
