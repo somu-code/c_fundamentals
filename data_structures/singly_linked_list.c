@@ -32,6 +32,19 @@ struct Node *insert_at_beginning(struct Node *head, struct Node *new_node)
 	return new_node;
 }
 
+void insert_at_end(struct Node **head, struct Node *new_node)
+{
+	if (*head != NULL) {
+		struct Node *temp = *head;
+		while (temp->next != NULL) {
+			temp = temp->next;
+		}
+		temp->next = new_node;
+	} else {
+		*head = new_node;
+	}
+}
+
 void free_list(struct Node *head)
 {
 	while (head != NULL) {
@@ -58,6 +71,11 @@ int main(void)
 		return EXIT_FAILURE;
 	}
 	head = insert_at_beginning(head, third_node);
+	struct Node *forth_node = create_node(4);
+	if (forth_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_end(&head, forth_node);
 	print_list(head);
 	free_list(head);
 }
