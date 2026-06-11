@@ -26,10 +26,10 @@ void print_list(struct Node *head)
 	}
 }
 
-struct Node *insert_at_beginning(struct Node *head, struct Node *new_node)
+void insert_at_beginning(struct Node **head, struct Node *new_node)
 {
-	new_node->next = head;
-	return new_node;
+	new_node->next = *head;
+	*head = new_node;
 }
 
 void insert_at_end(struct Node **head, struct Node *new_node)
@@ -70,7 +70,7 @@ int main(void)
 	if (third_node == NULL) {
 		return EXIT_FAILURE;
 	}
-	head = insert_at_beginning(head, third_node);
+	insert_at_beginning(&head, third_node);
 	struct Node *forth_node = create_node(4);
 	if (forth_node == NULL) {
 		return EXIT_FAILURE;
