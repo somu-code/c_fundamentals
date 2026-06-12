@@ -49,16 +49,19 @@ void delete_a_node(struct Node **head, int value)
 {
 	if (*head == NULL) {
 		return;
-	}
-	if (value == (*head)->data && (*head)->next == NULL) {
-		*head = NULL;
-		return;
-	}
-	while ((*head)->next != NULL) {
-		if ((*head)->data == value) {
-			printf("%d\n", (*head)->data);
+	} else if (value == (*head)->data) {
+		struct Node *temp = *head;
+		*head = temp->next;
+		free(temp);
+	} else {
+		struct Node *prev = *head;
+		struct Node *current = (*head)->next;
+		while (current != NULL && current->data != value) {
+			prev = current;
+			current = current->next;
 		}
-		*head = (*head)->next;
+		prev->next = current->next;
+		free(current);
 	}
 }
 
