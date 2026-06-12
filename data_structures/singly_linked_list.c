@@ -45,6 +45,27 @@ void insert_at_end(struct Node **head, struct Node *new_node)
 	}
 }
 
+void delete_a_node(struct Node **head, int value)
+{
+	if (*head == NULL) {
+		return;
+	}
+	if (value == (*head)->data && (*head)->next == NULL) {
+		*head = NULL;
+		return;
+	}
+	while ((*head)->next != NULL) {
+		if ((*head)->data == value) {
+			printf("%d\n", (*head)->data);
+		}
+		*head = (*head)->next;
+	}
+}
+
+// search for a value
+// insert at a specific position
+// reverse a list
+
 void free_list(struct Node *head)
 {
 	while (head != NULL) {
@@ -76,6 +97,9 @@ int main(void)
 		return EXIT_FAILURE;
 	}
 	insert_at_end(&head, forth_node);
+	print_list(head);
+	printf("After delete node\n");
+	delete_a_node(&head, 2);
 	print_list(head);
 	free_list(head);
 }
