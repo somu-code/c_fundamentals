@@ -79,8 +79,29 @@ int search_node(struct Node *head, int value)
 	return 0;
 }
 
-// search for a value
-// insert at a specific position
+void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
+				   int position)
+{
+	if (position != 0 && *head == NULL) {
+		return;
+	}
+	if (position == 0) {
+		insert_at_beginning(head, new_node);
+	}
+	/*	struct Node *prev = *head;
+	struct Node *current = (*head)->next;
+	int counter = 1;
+	while (current->next != NULL) {
+		if (position == counter) {
+			prev->next = new_node;
+			new_node->next = current;
+		}
+		counter++;
+		prev = current;
+		current = current->next;
+	}*/
+}
+
 // reverse a list
 
 void free_list(struct Node *head)
@@ -119,5 +140,7 @@ int main(void)
 	delete_a_node(&head, 2);
 	print_list(head);
 	printf("Is node exists: %d\n", search_node(head, 0));
+	insert_at_a_specific_position(&head, create_node(11), 0);
+	print_list(head);
 	free_list(head);
 }
