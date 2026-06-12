@@ -65,6 +65,20 @@ void delete_a_node(struct Node **head, int value)
 	}
 }
 
+int search_node(struct Node *head, int value)
+{
+	if (head == NULL) {
+		return 0;
+	}
+	while (head != NULL && head->data != value) {
+		head = head->next;
+	}
+	if (head != NULL) {
+		return 1;
+	}
+	return 0;
+}
+
 // search for a value
 // insert at a specific position
 // reverse a list
@@ -104,5 +118,6 @@ int main(void)
 	printf("After delete node\n");
 	delete_a_node(&head, 2);
 	print_list(head);
+	printf("Is node exists: %d\n", search_node(head, 0));
 	free_list(head);
 }
