@@ -84,22 +84,24 @@ void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
 {
 	if (position != 0 && *head == NULL) {
 		return;
-	}
-	if (position == 0) {
+	} else if (position == 0) {
 		insert_at_beginning(head, new_node);
-	}
-	/*	struct Node *prev = *head;
-	struct Node *current = (*head)->next;
-	int counter = 1;
-	while (current->next != NULL) {
-		if (position == counter) {
-			prev->next = new_node;
-			new_node->next = current;
+	} else {
+		int counter = 0;
+		struct Node *temp = *head;
+		while (counter != position - 1) {
+			if (temp->next == NULL) {
+				break;
+			}
+			counter++;
+			temp = temp->next;
 		}
-		counter++;
-		prev = current;
-		current = current->next;
-	}*/
+		if (position - 1 > counter) {
+			return;
+		}
+		new_node->next = temp->next;
+		temp->next = new_node;
+	}
 }
 
 // reverse a list
@@ -136,11 +138,15 @@ int main(void)
 	}
 	insert_at_end(&head, forth_node);
 	print_list(head);
-	printf("After delete node\n");
+	printf("After deleting Node with value: 2\n");
 	delete_a_node(&head, 2);
 	print_list(head);
-	printf("Is node exists: %d\n", search_node(head, 0));
+	printf("Is node with value: 0 exists: %d\n", search_node(head, 0));
+	printf("After inserting at position: 0 aka head with value: 11\n");
 	insert_at_a_specific_position(&head, create_node(11), 0);
+	print_list(head);
+	printf("After inserting at position: 2 with value: 22\n");
+	insert_at_a_specific_position(&head, create_node(22), 2);
 	print_list(head);
 	free_list(head);
 }
