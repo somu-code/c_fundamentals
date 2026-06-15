@@ -14,9 +14,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Provide a valid url\n");
 		return EXIT_FAILURE;
 	}
-	const uint16_t PORT = 8080;
+	const uint16_t PORT = 80;
 	const char *http_request = "GET / HTTP/1.1\r\n"
-				   "HOST: localhost\r\n"
+				   "HOST: example.com\r\n"
 				   "User-Agent: my_custom_client\r\n"
 				   "Accept: */*\r\n"
 				   "\r\n";
@@ -29,7 +29,17 @@ int main(int argc, char **argv)
 	struct sockaddr_in server_addr = { 0 };
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_port = htons(PORT);
-	inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr);
+	int network_address_conversion_status =
+		inet_pton(AF_INET, "104.20.23.154", &server_addr.sin_addr);
+	if (network_address_conversion_status < 0) {
+		perror("Failed to convert netwrok address");
+		return EXIT_FAILURE;
+	}
+	if (network_address_conversion_status < 1) {
+		fprintf(stderr,
+			"inet_pton: src does not contain a character string representhing a valid network address in the specified address family\n");
+		return EXIT_FAILURE;
+	}
 	if (connect(socket_file_discriptor, (struct sockaddr *)&server_addr,
 		    sizeof(server_addr)) < 0) {
 		perror("Failed to connect");
