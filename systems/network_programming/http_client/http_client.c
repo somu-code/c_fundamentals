@@ -78,11 +78,8 @@ int main(int argc, char **argv)
 		close(socket_file_discriptor);
 		free(http_response);
 		return EXIT_FAILURE;
-	} else if (bytes_read < 1) {
-		printf("Reached EOF or file is empty");
-	} else {
-		printf("%s", http_response);
 	}
+	printf("%s", http_response);
 	if (close(socket_file_discriptor) < 0) {
 		perror("Failed to close the socket");
 		return EXIT_FAILURE;
