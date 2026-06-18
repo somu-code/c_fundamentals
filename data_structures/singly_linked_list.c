@@ -6,6 +6,71 @@ struct Node {
 	struct Node *next;
 };
 
+struct Node *create_node(int n);
+void print_list(struct Node *head);
+void insert_at_beginning(struct Node **head, struct Node *new_node);
+void insert_at_end(struct Node **head, struct Node *new_node);
+void delete_a_node(struct Node **head, int value);
+int search_node(struct Node *head, int value);
+void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
+				   int position);
+void reverse_list(struct Node **head);
+void free_list(struct Node *head);
+
+int main(void)
+{
+	struct Node *head = NULL;
+	head = create_node(0);
+	if (head == NULL) {
+		return EXIT_FAILURE;
+	}
+	struct Node *second_node = create_node(2);
+	if (second_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	head->next = second_node;
+	printf("Node:\n");
+	print_list(head);
+	struct Node *third_node = create_node(3);
+	if (third_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_beginning(&head, third_node);
+	printf("\nAfter inserting at beginning with value: %d\n",
+	       third_node->data);
+	print_list(head);
+	struct Node *forth_node = create_node(4);
+	if (forth_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_end(&head, forth_node);
+	printf("\nAfter inserting at the end with value: %d\n",
+	       forth_node->data);
+	print_list(head);
+	delete_a_node(&head, 2);
+	printf("\nAfter deleting Node with value: 2\n");
+	print_list(head);
+	printf("\nIs node with value: 0 exists: %d\n", search_node(head, 0));
+	struct Node *node_with_value_eleven = create_node(11);
+	if (node_with_value_eleven == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_a_specific_position(&head, node_with_value_eleven, 0);
+	printf("\nAfter inserting at position: 0 aka head with value: 11\n");
+	print_list(head);
+	struct Node *node_with_value_twenty_two = create_node(22);
+	if (node_with_value_twenty_two == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_a_specific_position(&head, node_with_value_twenty_two, 2);
+	printf("\nAfter inserting at position: 2 with value: 22\n");
+	print_list(head);
+	reverse_list(&head);
+	printf("\nAfter reversing the list\n");
+	print_list(head);
+	free_list(head);
+}
+
 struct Node *create_node(int n)
 {
 	struct Node *temp = malloc(sizeof(struct Node));
@@ -130,58 +195,4 @@ void free_list(struct Node *head)
 		free(head);
 		head = temp;
 	}
-}
-
-int main(void)
-{
-	struct Node *head = NULL;
-	head = create_node(0);
-	if (head == NULL) {
-		return EXIT_FAILURE;
-	}
-	struct Node *second_node = create_node(2);
-	if (second_node == NULL) {
-		return EXIT_FAILURE;
-	}
-	head->next = second_node;
-	printf("Node:\n");
-	print_list(head);
-	struct Node *third_node = create_node(3);
-	if (third_node == NULL) {
-		return EXIT_FAILURE;
-	}
-	insert_at_beginning(&head, third_node);
-	printf("\nAfter inserting at beginning with value: %d\n",
-	       third_node->data);
-	print_list(head);
-	struct Node *forth_node = create_node(4);
-	if (forth_node == NULL) {
-		return EXIT_FAILURE;
-	}
-	insert_at_end(&head, forth_node);
-	printf("\nAfter inserting at the end with value: %d\n",
-	       forth_node->data);
-	print_list(head);
-	delete_a_node(&head, 2);
-	printf("\nAfter deleting Node with value: 2\n");
-	print_list(head);
-	printf("\nIs node with value: 0 exists: %d\n", search_node(head, 0));
-	struct Node *node_with_value_eleven = create_node(11);
-	if (node_with_value_eleven == NULL) {
-		return EXIT_FAILURE;
-	}
-	insert_at_a_specific_position(&head, node_with_value_eleven, 0);
-	printf("\nAfter inserting at position: 0 aka head with value: 11\n");
-	print_list(head);
-	struct Node *node_with_value_twenty_two = create_node(22);
-	if (node_with_value_twenty_two == NULL) {
-		return EXIT_FAILURE;
-	}
-	insert_at_a_specific_position(&head, node_with_value_twenty_two, 2);
-	printf("\nAfter inserting at position: 2 with value: 22\n");
-	print_list(head);
-	reverse_list(&head);
-	printf("\nAfter reversing the list\n");
-	print_list(head);
-	free_list(head);
 }
