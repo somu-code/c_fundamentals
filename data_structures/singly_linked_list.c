@@ -60,6 +60,9 @@ void delete_a_node(struct Node **head, int value)
 			prev = current;
 			current = current->next;
 		}
+		if (current == NULL) {
+			return;
+		}
 		prev->next = current->next;
 		free(current);
 	}
@@ -141,6 +144,7 @@ int main(void)
 		return EXIT_FAILURE;
 	}
 	head->next = second_node;
+	printf("Node:\n");
 	print_list(head);
 	struct Node *third_node = create_node(3);
 	if (third_node == NULL) {
