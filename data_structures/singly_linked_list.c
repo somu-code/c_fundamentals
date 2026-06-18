@@ -166,10 +166,18 @@ int main(void)
 	printf("\nAfter deleting Node with value: 2\n");
 	print_list(head);
 	printf("\nIs node with value: 0 exists: %d\n", search_node(head, 0));
-	insert_at_a_specific_position(&head, create_node(11), 0);
+	struct Node *node_with_value_eleven = create_node(11);
+	if (node_with_value_eleven == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_a_specific_position(&head, node_with_value_eleven, 0);
 	printf("\nAfter inserting at position: 0 aka head with value: 11\n");
 	print_list(head);
-	insert_at_a_specific_position(&head, create_node(22), 2);
+	struct Node *node_with_value_twenty_two = create_node(22);
+	if (node_with_value_twenty_two == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_a_specific_position(&head, node_with_value_twenty_two, 2);
 	printf("\nAfter inserting at position: 2 with value: 22\n");
 	print_list(head);
 	reverse_list(&head);
