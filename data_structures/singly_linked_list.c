@@ -157,10 +157,7 @@ void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
 	} else {
 		int counter = 0;
 		struct Node *temp = *head;
-		while (counter != position - 1) {
-			if (temp->next == NULL) {
-				break;
-			}
+		while (counter != position - 1 && temp->next != NULL) {
 			counter++;
 			temp = temp->next;
 		}
