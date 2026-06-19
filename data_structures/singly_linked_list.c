@@ -150,7 +150,9 @@ int search_node(struct Node *head, int value)
 void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
 				   int position)
 {
-	if (position != 0 && *head == NULL) {
+	if (position < 0) {
+		return;
+	} else if (position != 0 && *head == NULL) {
 		return;
 	} else if (position == 0) {
 		insert_at_beginning(head, new_node);
