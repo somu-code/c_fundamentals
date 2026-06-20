@@ -32,8 +32,8 @@ int main(int argc, char **argv)
 				   "User-Agent: my_custom_client\r\n"
 				   "Accept: */*\r\n"
 				   "\r\n";
-	int socket_file_discriptor = socket(AF_INET, SOCK_STREAM, 0);
-	if (socket_file_discriptor < 0) {
+	int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+	if (socket_fd < 0) {
 		perror("Error creating socket");
 		return EXIT_FAILURE;
 	}
@@ -43,45 +43,44 @@ int main(int argc, char **argv)
 	int network_address_conversion_status =
 		inet_pton(AF_INET, "104.20.23.154", &server_addr.sin_addr);
 	if (network_address_conversion_status < 0) {
-		close(socket_file_discriptor);
+		close(socket_fd);
 		perror("Failed to convert netwrok address");
 		return EXIT_FAILURE;
 	}
 	if (network_address_conversion_status < 1) {
 		fprintf(stderr,
 			"inet_pton: src does not contain a character string representhing a valid network address in the specified address family\n");
-		close(socket_file_discriptor);
+		close(socket_fd);
 		return EXIT_FAILURE;
 	}
-	if (connect(socket_file_discriptor, (struct sockaddr *)&server_addr,
+	if (connect(socket_fd, (struct sockaddr *)&server_addr,
 		    sizeof(server_addr)) < 0) {
 		perror("Failed to connect");
-		close(socket_file_discriptor);
+		close(socket_fd);
 		return EXIT_FAILURE;
 	}
-	if (write(socket_file_discriptor, http_request, strlen(http_request)) <
-	    0) {
+	if (write(socket_fd, http_request, strlen(http_request)) < 0) {
 		perror("Failed to write");
-		close(socket_file_discriptor);
+		close(socket_fd);
 		return EXIT_FAILURE;
 	}
 	char *http_response = malloc(BUFFER_SIZE);
 	if (http_response == NULL) {
 		perror("Failed to allocte buffer");
-		close(socket_file_discriptor);
+		close(socket_fd);
 		return EXIT_FAILURE;
 	}
-	ssize_t bytes_read =
-		read(socket_file_discriptor, http_response, BUFFER_SIZE);
+	ssize_t bytes_read = read(socket_fd, http_response, BUFFER_SIZE);
 	if (bytes_read < 0) {
-		perror("Failed to read buffer");
-		close(socket_file_discriptor);
+		perror("Failed to read");
+		close(socket_fd);
 		free(http_response);
 		return EXIT_FAILURE;
 	}
 	printf("%s", http_response);
-	if (close(socket_file_discriptor) < 0) {
+	if (close(socket_fd) < 0) {
 		perror("Failed to close the socket");
+		free(http_response);
 		return EXIT_FAILURE;
 	}
 	free(http_response);
