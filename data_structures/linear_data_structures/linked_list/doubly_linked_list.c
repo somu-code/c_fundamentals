@@ -12,6 +12,11 @@ void print_list(struct Node *head);
 void insert_at_beginning(struct Node **head, struct Node **tail,
 			 struct Node *new_node);
 void insert_at_end(struct Node *tail, struct Node *new_node);
+void delete_a_node();
+int search_node();
+void insert_at_a_specific_position();
+void reverse_list();
+void free_list(struct Node *head);
 
 int main(void)
 {
@@ -31,10 +36,14 @@ int main(void)
 	tail = second_node;
 	printf("Node list:\n");
 	print_list(head);
-	insert_at_beginning(&head, &tail, create_node(100));
-	printf("\nAfter inserting a node at begining with value :100\n");
+	struct Node *third_node = create_node(100);
+	if (third_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_beginning(&head, &tail, third_node);
+	printf("\nAfter inserting a node at begining with value: 100\n");
 	print_list(head);
-	printf("\nValue stored in tail: %d\n", tail->data);
+	free_list(head);
 }
 
 struct Node *create_node(int data)
@@ -78,5 +87,22 @@ void insert_at_beginning(struct Node **head, struct Node **tail,
 		new_node->next = *head;
 		(*head)->prev = new_node;
 		*head = new_node;
+	}
+}
+
+void free_list(struct Node *head)
+{
+	if (head == NULL) {
+		return;
+	} else if (head->next == NULL) {
+		free(head);
+		return;
+	} else {
+		while (head->next != NULL) {
+			struct Node *temp = head;
+			head = head->next;
+			free(temp);
+		}
+		free(head);
 	}
 }
