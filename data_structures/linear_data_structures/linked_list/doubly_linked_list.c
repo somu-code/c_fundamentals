@@ -11,10 +11,12 @@ struct Node *create_node(int data);
 void print_list(struct Node *head);
 void insert_at_beginning(struct Node **head, struct Node **tail,
 			 struct Node *new_node);
-void insert_at_end(struct Node *tail, struct Node *new_node);
+void insert_at_end(struct Node **head, struct Node **tail,
+		   struct Node *new_node);
+void insert_at_specific_position(struct Node **head, struct Node **tail,
+				 struct Node *new_node, int position);
 void delete_a_node();
 int search_node();
-void insert_at_a_specific_position();
 void reverse_list();
 void free_list(struct Node *head);
 
@@ -36,12 +38,40 @@ int main(void)
 	tail = second_node;
 	printf("Node list:\n");
 	print_list(head);
-	struct Node *third_node = create_node(100);
+	struct Node *third_node = create_node(3);
 	if (third_node == NULL) {
 		return EXIT_FAILURE;
 	}
 	insert_at_beginning(&head, &tail, third_node);
-	printf("\nAfter inserting a node at begining with value: 100\n");
+	printf("\nAfter inserting a node at begining with value: 3\n");
+	print_list(head);
+	struct Node *forth_node = create_node(4);
+	if (forth_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_end(&head, &tail, forth_node);
+	printf("\nAfter inserting a node at end with value: 4\n");
+	print_list(head);
+	struct Node *fifth_node = create_node(5);
+	if (fifth_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_specific_position(&head, &tail, fifth_node, 0);
+	printf("\nAfter inserting a node at position 0 aka head with value: 5\n");
+	print_list(head);
+	struct Node *sixth_node = create_node(6);
+	if (sixth_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_specific_position(&head, &tail, sixth_node, 2);
+	printf("\nAfter inserting a node at position 2 with value: 6\n");
+	print_list(head);
+	struct Node *seventh_node = create_node(7);
+	if (seventh_node == NULL) {
+		return EXIT_FAILURE;
+	}
+	insert_at_specific_position(&head, &tail, seventh_node, 5);
+	printf("\nAfter inserting a node at position 5, with value: 7\n");
 	print_list(head);
 	free_list(head);
 }
@@ -87,6 +117,50 @@ void insert_at_beginning(struct Node **head, struct Node **tail,
 		new_node->next = *head;
 		(*head)->prev = new_node;
 		*head = new_node;
+	}
+}
+
+void insert_at_end(struct Node **head, struct Node **tail,
+		   struct Node *new_node)
+{
+	if (*head == NULL) {
+		*head = new_node;
+		*tail = *head;
+	} else {
+		(*tail)->next = new_node;
+		new_node->prev = *tail;
+		*tail = new_node;
+	}
+}
+
+void insert_at_specific_position(struct Node **head, struct Node **tail,
+				 struct Node *new_node, int position)
+{
+	if (*head == NULL && position != 0) {
+		return;
+	} else {
+		int counter = 0;
+		struct Node *temp = *head;
+		while (counter != position && temp->next != NULL) {
+			temp = temp->next;
+			counter++;
+		}
+		if (counter < position) {
+			return;
+		}
+		if (temp->prev != NULL) {
+			struct Node *temp2 = temp->prev;
+			temp2->next = new_node;
+			new_node->prev = temp2;
+		}
+		new_node->next = temp;
+		temp->prev = new_node;
+		if (counter == 0) {
+			*head = new_node;
+		}
+		if (new_node->next == NULL) {
+			*tail = new_node;
+		}
 	}
 }
 
