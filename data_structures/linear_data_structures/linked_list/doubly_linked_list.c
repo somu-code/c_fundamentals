@@ -3,19 +3,19 @@
 
 struct Node {
 	struct Node *prev;
-	int data;
+	unsigned int data;
 	struct Node *next;
 };
 
-struct Node *create_node(int data);
+struct Node *create_node(unsigned int data);
 void print_list(struct Node *head);
 void insert_at_beginning(struct Node **head, struct Node **tail,
 			 struct Node *new_node);
 void insert_at_end(struct Node **head, struct Node **tail,
 		   struct Node *new_node);
 void insert_at_specific_position(struct Node **head, struct Node **tail,
-				 struct Node *new_node, int position);
-void delete_a_node();
+				 struct Node *new_node, unsigned int position);
+void delete_a_node(struct Node **head, struct Node **tail, unsigned int data);
 int search_node();
 void reverse_list();
 void free_list(struct Node *head);
@@ -73,10 +73,20 @@ int main(void)
 	insert_at_specific_position(&head, &tail, seventh_node, 5);
 	printf("\nAfter inserting a node at position 5, with value: 7\n");
 	print_list(head);
+	delete_a_node(&head, &tail, 5);
+	printf("\nAfter deleting node with value: 5 aka head\n");
+	print_list(head);
+	delete_a_node(&head, &tail, 4);
+	printf("\nAfter deleting node with value: 4 aka tail\n");
+	print_list(head);
+	delete_a_node(&head, &tail, 0);
+	printf("\nAfter deleting node with value: 0\n");
+	print_list(head);
+	delete_a_node(&head, &tail, 100);
 	free_list(head);
 }
 
-struct Node *create_node(int data)
+struct Node *create_node(unsigned int data)
 {
 	struct Node *temp = malloc(sizeof(struct Node));
 	if (temp == NULL) {
@@ -134,12 +144,12 @@ void insert_at_end(struct Node **head, struct Node **tail,
 }
 
 void insert_at_specific_position(struct Node **head, struct Node **tail,
-				 struct Node *new_node, int position)
+				 struct Node *new_node, unsigned int position)
 {
 	if (*head == NULL && position != 0) {
 		return;
 	} else {
-		int counter = 0;
+		unsigned int counter = 0;
 		struct Node *temp = *head;
 		while (counter != position && temp->next != NULL) {
 			temp = temp->next;
@@ -161,6 +171,40 @@ void insert_at_specific_position(struct Node **head, struct Node **tail,
 		if (new_node->next == NULL) {
 			*tail = new_node;
 		}
+	}
+}
+
+void delete_a_node(struct Node **head, struct Node **tail, unsigned int data)
+{
+	if (*head == NULL) {
+		return;
+	} else {
+		struct Node *temp = *head;
+		while (temp->data != data) {
+			if (temp->next == NULL) {
+				printf("\n%d position does not exists, so can't be deleted\n",
+				       data);
+				return;
+			}
+			temp = temp->next;
+		}
+		if (temp == *head) {
+			*head = temp->next;
+			(*head)->prev = NULL;
+			free(temp);
+			return;
+		}
+		if (temp == *tail) {
+			*tail = temp->prev;
+			(*tail)->next = NULL;
+			free(temp);
+			return;
+		}
+		struct Node *temp2 = temp->prev;
+		temp2->next = temp->next;
+		struct Node *temp3 = temp->next;
+		temp3->prev = temp->prev;
+		free(temp);
 	}
 }
 
