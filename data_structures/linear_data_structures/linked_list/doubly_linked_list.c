@@ -73,6 +73,7 @@ int main(void)
 	insert_at_specific_position(&head, &tail, seventh_node, 5);
 	printf("\nAfter inserting a node at position 5, with value: 7\n");
 	print_list(head);
+	insert_at_specific_position(&head, &tail, create_node(8), 10000);
 	delete_a_node(&head, &tail, 5);
 	printf("\nAfter deleting node with value: 5 aka head\n");
 	print_list(head);
@@ -156,6 +157,8 @@ void insert_at_specific_position(struct Node **head, struct Node **tail,
 			counter++;
 		}
 		if (counter < position) {
+			printf("\nTrying to insert at position %d failed due to list out of bound\n",
+			       position);
 			return;
 		}
 		if (temp->prev != NULL) {
