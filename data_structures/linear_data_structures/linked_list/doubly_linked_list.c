@@ -16,7 +16,7 @@ void insert_at_end(struct Node **head, struct Node **tail,
 void insert_at_specific_position(struct Node **head, struct Node **tail,
 				 struct Node *new_node, unsigned int position);
 void delete_a_node(struct Node **head, struct Node **tail, unsigned int data);
-int search_node();
+struct Node *search_node(struct Node *head, unsigned int data);
 void reverse_list();
 void free_list(struct Node *head);
 
@@ -84,6 +84,13 @@ int main(void)
 	printf("\nAfter deleting node with value: 0\n");
 	print_list(head);
 	delete_a_node(&head, &tail, 100);
+	struct Node *searched_node = search_node(head, 2);
+	if (searched_node != NULL) {
+		printf("\nSearched node:\n");
+		printf("prev: %p, data: %d, next: %p\n",
+		       (void *)searched_node->prev, searched_node->data,
+		       (void *)searched_node->next);
+	}
 	free_list(head);
 }
 
@@ -205,6 +212,20 @@ void delete_a_node(struct Node **head, struct Node **tail, unsigned int data)
 		temp3->prev = temp->prev;
 		free(temp);
 	}
+}
+
+struct Node *search_node(struct Node *head, unsigned int data)
+{
+	if (head == NULL) {
+		return NULL;
+	}
+	while (data != head->data) {
+		if (head->next == NULL) {
+			return NULL;
+		}
+		head = head->next;
+	}
+	return head;
 }
 
 void free_list(struct Node *head)
