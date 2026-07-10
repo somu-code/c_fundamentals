@@ -11,7 +11,7 @@ void print_list(struct Node *head);
 void insert_at_beginning(struct Node **head, struct Node *new_node);
 void insert_at_end(struct Node **head, struct Node *new_node);
 void delete_a_node(struct Node **head, int value);
-int search_node(struct Node *head, int value);
+struct Node *search_node(struct Node *head, int data);
 void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
 				   int position);
 void reverse_list(struct Node **head);
@@ -50,7 +50,12 @@ int main(void)
 	delete_a_node(&head, 2);
 	printf("\nAfter deleting Node with value: 2\n");
 	print_list(head);
-	printf("\nIs node with value: 0 exists: %d\n", search_node(head, 0));
+	struct Node *searched_node = search_node(head, 0);
+	if (searched_node != NULL) {
+		printf("\nSearched node:\n");
+		printf("Data: %d, Next: %p\n", searched_node->data,
+		       (void *)searched_node->next);
+	}
 	struct Node *node_with_value_eleven = create_node(11);
 	if (node_with_value_eleven == NULL) {
 		return EXIT_FAILURE;
@@ -133,18 +138,18 @@ void delete_a_node(struct Node **head, int value)
 	}
 }
 
-int search_node(struct Node *head, int value)
+struct Node *search_node(struct Node *head, int data)
 {
 	if (head == NULL) {
-		return 0;
+		return NULL;
 	}
-	while (head != NULL && head->data != value) {
+	while (head->data != data) {
+		if (head->next == NULL) {
+			return NULL;
+		}
 		head = head->next;
 	}
-	if (head != NULL) {
-		return 1;
-	}
-	return 0;
+	return head;
 }
 
 void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
