@@ -157,8 +157,6 @@ void insert_at_specific_position(struct Node **head, struct Node **tail,
 			counter++;
 		}
 		if (counter < position) {
-			printf("\nTrying to insert at position %d failed due to list out of bound\n",
-			       position);
 			return;
 		}
 		if (temp->prev != NULL) {
@@ -185,8 +183,6 @@ void delete_a_node(struct Node **head, struct Node **tail, unsigned int data)
 		struct Node *temp = *head;
 		while (temp->data != data) {
 			if (temp->next == NULL) {
-				printf("\n%d position does not exists, so can't be deleted\n",
-				       data);
 				return;
 			}
 			temp = temp->next;
