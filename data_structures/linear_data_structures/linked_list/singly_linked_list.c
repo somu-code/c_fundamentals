@@ -2,16 +2,16 @@
 #include <stdio.h>
 
 struct Node {
-	int data;
+	unsigned int data;
 	struct Node *next;
 };
 
-struct Node *create_node(int n);
+struct Node *create_node(unsigned int n);
 void print_list(struct Node *head);
 void insert_at_beginning(struct Node **head, struct Node *new_node);
 void insert_at_end(struct Node **head, struct Node *new_node);
-void delete_a_node(struct Node **head, int value);
-struct Node *search_node(struct Node *head, int data);
+void delete_a_node(struct Node **head, unsigned int value);
+struct Node *search_node(struct Node *head, unsigned int data);
 void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
 				   int position);
 void reverse_list(struct Node **head);
@@ -76,7 +76,7 @@ int main(void)
 	free_list(head);
 }
 
-struct Node *create_node(int n)
+struct Node *create_node(unsigned int n)
 {
 	struct Node *temp = malloc(sizeof(struct Node));
 	if (temp == NULL) {
@@ -115,7 +115,7 @@ void insert_at_end(struct Node **head, struct Node *new_node)
 	}
 }
 
-void delete_a_node(struct Node **head, int value)
+void delete_a_node(struct Node **head, unsigned int value)
 {
 	if (*head == NULL) {
 		return;
@@ -138,7 +138,7 @@ void delete_a_node(struct Node **head, int value)
 	}
 }
 
-struct Node *search_node(struct Node *head, int data)
+struct Node *search_node(struct Node *head, unsigned int data)
 {
 	if (head == NULL) {
 		return NULL;
