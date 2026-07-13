@@ -13,7 +13,7 @@ void insert_at_end(struct Node **head, struct Node *new_node);
 void delete_a_node(struct Node **head, unsigned int value);
 struct Node *search_node(struct Node *head, unsigned int data);
 void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
-				   int position);
+				   unsigned int position);
 void reverse_list(struct Node **head);
 void free_list(struct Node *head);
 
@@ -153,16 +153,14 @@ struct Node *search_node(struct Node *head, unsigned int data)
 }
 
 void insert_at_a_specific_position(struct Node **head, struct Node *new_node,
-				   int position)
+				   unsigned int position)
 {
-	if (position < 0) {
-		return;
-	} else if (position != 0 && *head == NULL) {
+	if (position != 0 && *head == NULL) {
 		return;
 	} else if (position == 0) {
 		insert_at_beginning(head, new_node);
 	} else {
-		int counter = 0;
+		unsigned int counter = 0;
 		struct Node *temp = *head;
 		while (counter != position - 1 && temp->next != NULL) {
 			counter++;
