@@ -18,7 +18,7 @@ c-fundamentals/
 │   ├── memmove.c                         ← todo
 │   ├── strcpy.c                          ← todo
 │   ├── strcat.c                          ← todo
-│   └── malloc.c                          ← todo (ambitious but impressive)
+│   └── malloc.c                          ← todo
 │
 ├── data_structures/
 │   ├── singly_linked_list.c
